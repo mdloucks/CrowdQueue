@@ -7,23 +7,59 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF02CAB029A964D2008A6FCC /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF02CAAF29A964D2008A6FCC /* SignupViewController.swift */; };
+		EF02CAB629AAAEEB008A6FCC /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF02CAB529AAAEEB008A6FCC /* NavigationViewController.swift */; };
+		EF02CAB829ABFAD3008A6FCC /* SupabaseConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF02CAB729ABFAD3008A6FCC /* SupabaseConnector.swift */; };
+		EF02CABA29AD2CD8008A6FCC /* DeviceToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF02CAB929AD2CD8008A6FCC /* DeviceToken.swift */; };
 		EF4BE7C629A0158300B8E23D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4BE7C529A0158300B8E23D /* AppDelegate.swift */; };
 		EF4BE7C829A0158300B8E23D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4BE7C729A0158300B8E23D /* SceneDelegate.swift */; };
-		EF4BE7CA29A0158300B8E23D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4BE7C929A0158300B8E23D /* ViewController.swift */; };
 		EF4BE7CD29A0158300B8E23D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF4BE7CB29A0158300B8E23D /* Main.storyboard */; };
 		EF4BE7CF29A0158400B8E23D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF4BE7CE29A0158400B8E23D /* Assets.xcassets */; };
 		EF4BE7D229A0158400B8E23D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF4BE7D029A0158400B8E23D /* LaunchScreen.storyboard */; };
+		EF4BE7E229A016A500B8E23D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4BE7E129A016A500B8E23D /* Constants.swift */; };
+		EF4BE7E329A01A5400B8E23D /* SpotifyiOS.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4BE7D929A015AA00B8E23D /* SpotifyiOS.xcframework */; };
+		EF4BE7E429A01A5400B8E23D /* SpotifyiOS.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EF4BE7D929A015AA00B8E23D /* SpotifyiOS.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EF640D1229A5A32F007D2CC8 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = EF640D1129A5A32F007D2CC8 /* Supabase */; };
+		EF640D1629A6D91E007D2CC8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF640D1529A6D91E007D2CC8 /* LoginViewController.swift */; };
+		EF7D576929A9522D001875B1 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7D576829A9522D001875B1 /* MainController.swift */; };
+		EF7D576B29A95B4C001875B1 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7D576A29A95B4C001875B1 /* WelcomeViewController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		EF4BE7E529A01A5400B8E23D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EF4BE7E429A01A5400B8E23D /* SpotifyiOS.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		EF02CAAF29A964D2008A6FCC /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		EF02CAB529AAAEEB008A6FCC /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
+		EF02CAB729ABFAD3008A6FCC /* SupabaseConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseConnector.swift; sourceTree = "<group>"; };
+		EF02CAB929AD2CD8008A6FCC /* DeviceToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceToken.swift; sourceTree = "<group>"; };
+		EF02CABB29AD6E8F008A6FCC /* Musivote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Musivote.entitlements; sourceTree = "<group>"; };
+		EF1455A829A56BBE00B4396F /* Musivote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Musivote.entitlements; sourceTree = "<group>"; };
 		EF4BE7C229A0158300B8E23D /* Musivote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Musivote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF4BE7C529A0158300B8E23D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF4BE7C729A0158300B8E23D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		EF4BE7C929A0158300B8E23D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EF4BE7CC29A0158300B8E23D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EF4BE7CE29A0158400B8E23D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF4BE7D129A0158400B8E23D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF4BE7D329A0158400B8E23D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF4BE7D929A015AA00B8E23D /* SpotifyiOS.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SpotifyiOS.xcframework; path = "../../../Downloads/ios-sdk/SpotifyiOS.xcframework"; sourceTree = "<group>"; };
+		EF4BE7DB29A0163200B8E23D /* Musivote-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Musivote-Bridging-Header.h"; sourceTree = "<group>"; };
+		EF4BE7DF29A0167400B8E23D /* SpotifyiOS.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = SpotifyiOS.xcframework; sourceTree = "<group>"; };
+		EF4BE7E129A016A500B8E23D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		EF640D1529A6D91E007D2CC8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		EF7D576829A9522D001875B1 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		EF7D576A29A95B4C001875B1 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +67,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF640D1229A5A32F007D2CC8 /* Supabase in Frameworks */,
+				EF4BE7E329A01A5400B8E23D /* SpotifyiOS.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +78,13 @@
 		EF4BE7B929A0158300B8E23D = {
 			isa = PBXGroup;
 			children = (
+				EF02CABB29AD6E8F008A6FCC /* Musivote.entitlements */,
+				EF02CAB929AD2CD8008A6FCC /* DeviceToken.swift */,
+				EF02CAB529AAAEEB008A6FCC /* NavigationViewController.swift */,
+				EF02CAAF29A964D2008A6FCC /* SignupViewController.swift */,
+				EF7D576A29A95B4C001875B1 /* WelcomeViewController.swift */,
+				EF640D1529A6D91E007D2CC8 /* LoginViewController.swift */,
+				EF02CAB729ABFAD3008A6FCC /* SupabaseConnector.swift */,
 				EF4BE7C429A0158300B8E23D /* Musivote */,
 				EF4BE7C329A0158300B8E23D /* Products */,
 			);
@@ -56,15 +101,28 @@
 		EF4BE7C429A0158300B8E23D /* Musivote */ = {
 			isa = PBXGroup;
 			children = (
-				EF4BE7C529A0158300B8E23D /* AppDelegate.swift */,
+				EF1455A829A56BBE00B4396F /* Musivote.entitlements */,
+				EF4BE7DE29A0166700B8E23D /* Files */,
+				EF4BE7D929A015AA00B8E23D /* SpotifyiOS.xcframework */,
+				EF7D576829A9522D001875B1 /* MainController.swift */,
 				EF4BE7C729A0158300B8E23D /* SceneDelegate.swift */,
-				EF4BE7C929A0158300B8E23D /* ViewController.swift */,
+				EF4BE7DB29A0163200B8E23D /* Musivote-Bridging-Header.h */,
+				EF4BE7E129A016A500B8E23D /* Constants.swift */,
+			);
+			path = Musivote;
+			sourceTree = "<group>";
+		};
+		EF4BE7DE29A0166700B8E23D /* Files */ = {
+			isa = PBXGroup;
+			children = (
 				EF4BE7CB29A0158300B8E23D /* Main.storyboard */,
+				EF4BE7C529A0158300B8E23D /* AppDelegate.swift */,
 				EF4BE7CE29A0158400B8E23D /* Assets.xcassets */,
 				EF4BE7D029A0158400B8E23D /* LaunchScreen.storyboard */,
 				EF4BE7D329A0158400B8E23D /* Info.plist */,
+				EF4BE7DF29A0167400B8E23D /* SpotifyiOS.xcframework */,
 			);
-			path = Musivote;
+			name = Files;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -77,12 +135,16 @@
 				EF4BE7BE29A0158300B8E23D /* Sources */,
 				EF4BE7BF29A0158300B8E23D /* Frameworks */,
 				EF4BE7C029A0158300B8E23D /* Resources */,
+				EF4BE7E529A01A5400B8E23D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Musivote;
+			packageProductDependencies = (
+				EF640D1129A5A32F007D2CC8 /* Supabase */,
+			);
 			productName = Musivote;
 			productReference = EF4BE7C229A0158300B8E23D /* Musivote.app */;
 			productType = "com.apple.product-type.application";
@@ -99,6 +161,7 @@
 				TargetAttributes = {
 					EF4BE7C129A0158300B8E23D = {
 						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
 					};
 				};
 			};
@@ -111,6 +174,9 @@
 				Base,
 			);
 			mainGroup = EF4BE7B929A0158300B8E23D;
+			packageReferences = (
+				EF640D1029A5A32F007D2CC8 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			productRefGroup = EF4BE7C329A0158300B8E23D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,9 +204,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF4BE7CA29A0158300B8E23D /* ViewController.swift in Sources */,
+				EF02CAB629AAAEEB008A6FCC /* NavigationViewController.swift in Sources */,
 				EF4BE7C629A0158300B8E23D /* AppDelegate.swift in Sources */,
+				EF02CAB029A964D2008A6FCC /* SignupViewController.swift in Sources */,
+				EF02CABA29AD2CD8008A6FCC /* DeviceToken.swift in Sources */,
 				EF4BE7C829A0158300B8E23D /* SceneDelegate.swift in Sources */,
+				EF640D1629A6D91E007D2CC8 /* LoginViewController.swift in Sources */,
+				EF7D576B29A95B4C001875B1 /* WelcomeViewController.swift in Sources */,
+				EF7D576929A9522D001875B1 /* MainController.swift in Sources */,
+				EF02CAB829ABFAD3008A6FCC /* SupabaseConnector.swift in Sources */,
+				EF4BE7E229A016A500B8E23D /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,24 +358,33 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Musivote/Musivote.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 896ZSL2KFC;
+				DEVELOPMENT_TEAM = 28A653Q32U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Musivote/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Crowd Queue";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tpc.Musivote;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = club.mdl.CrowdQueue;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Musivote/Musivote-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -313,24 +395,32 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Musivote/Musivote.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 896ZSL2KFC;
+				DEVELOPMENT_TEAM = 28A653Q32U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Musivote/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Crowd Queue";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tpc.Musivote;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = club.mdl.CrowdQueue;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Musivote/Musivote-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -358,6 +448,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EF640D1029A5A32F007D2CC8 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EF640D1129A5A32F007D2CC8 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EF640D1029A5A32F007D2CC8 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EF4BE7BA29A0158300B8E23D /* Project object */;
 }

@@ -1,34 +1,35 @@
 //
-//  LoginViewController.swift
+//  SignupViewController.swift
 //  Musivote
 //
-//  Created by Matthew Loucks on 2/22/23.
+//  Created by Matthew Loucks on 2/24/23.
 //
 
 import UIKit
 import Supabase
 import GoTrue
 
-class LoginViewController: UIViewController {
+class SignupViewController: UIViewController {
     
     
     @IBOutlet weak var emailField: UITextField!
+    
     @IBOutlet weak var passwordField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Login"
-        
-        self.emailField.text = "loucks12345@gmail.com"
-        self.passwordField.text = "password123"
+        title = "Signup"
         // Do any additional setup after loading the view.
+        
     }
     
     
-    @IBAction func loginClicked(_ sender: Any) {
+    @IBAction func signupClicked(_ sender: Any) {
         
         guard let email = self.emailField.text else { return }
         guard let password = self.passwordField.text else { return }
+        
+        let client = getSupabaseConnection()
         
         // next, update their device Token
         let deviceToken: String = getDeviceToken()
@@ -38,39 +39,23 @@ class LoginViewController: UIViewController {
         ]
         
         let attributes: UserAttributes = UserAttributes(data: jsonData)
-    
-        let client = getSupabaseConnection()
         
         Task {
             do {
-                try await client!.auth.signIn(email: email, password: password)
+                try await client!.auth.signUp(email: email, password: password)
                 let session = try await client!.auth.session
-                
-//                set access token
-                struct DefaultsKeys {
-                    static let accessToken = "accessToken"
-                    static let refreshToken = "refreshToken"
-                    static let userId = "userId"
-                }
-                
-                let defaults = UserDefaults.standard
-                defaults.set(session.accessToken, forKey: DefaultsKeys.accessToken)
-                defaults.set(session.refreshToken, forKey: DefaultsKeys.refreshToken)
-                defaults.set(session.user.id.uuidString, forKey: DefaultsKeys.userId)
-                
                 print("### Session Info: \(session)")
-                print("LOGGED IN")
                 
                 try await client?.auth.update(user: attributes)
+                
                 //              self.performSegue(withIdentifier: "goToNext", sender: self)
-                
                 SceneDelegate.shared!.transitionToMainController()
-                
             } catch {
-                print("### Login Error: \(error)")
+                print("### Sign Up Error: \(error)")
             }
         }
     }
+    
     
     /*
      // MARK: - Navigation

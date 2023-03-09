@@ -1,4 +1,10 @@
 //
+//  MainController.swift
+//  Musivote
+//
+//  Created by Matthew Loucks on 2/24/23.
+//
+//
 //  ViewController.swift
 //  easyplay
 //
@@ -8,7 +14,7 @@
 import UIKit
 import Supabase
 
-class ViewController: UIViewController {
+class MainController: UIViewController {
 
     // MARK: - Spotify Authorization & Configuration
     var responseCode: String? {
@@ -69,6 +75,9 @@ class ViewController: UIViewController {
     let trackLabel = UILabel()
     let playPauseButton = UIButton(type: .system)
     let signOutButton = UIButton(type: .system)
+    
+//    create party button
+    let createPartyButton = UIButton(type: .system)
 
     // MARK: App Life Cycle
     override func viewDidLoad() {
@@ -120,30 +129,61 @@ class ViewController: UIViewController {
     @objc func playSong(_ button: UIButton) {
         print("play song!!!!")
         
-        let optionalUrl = URL(string: "https://kofhhbgmezymusfukmpz.supabase.co")
+//        self.appRemote.authorizeAndPlayURI("spotify:track:20I6sIOMTCkB6w7ryavxtO")
+        self.appRemote.playerAPI?.enqueueTrackUri("spotify:track:20I6sIOMTCkB6w7ryavxtO")
+    }
+    
+    @objc func createParty(_ button: UIButton) {
+        print("create party!")
         
-//        for some wack reason, you have to "unwrap" a url before you can use it
-//        basically just a null
-//        TODO: add nil type check to this, otherwise a runtime error can happen
-        let supabaseUrl = optionalUrl!
-        
-        let anonKey: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtvZmhoYmdtZXp5bXVzZnVrbXB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzYzMTM1ODMsImV4cCI6MTk5MTg4OTU4M30.nsmt-MXftcNSw-VZhDuSabirx01RU0dKfZirDLgpIJA"
-        
-        
-        let client = SupabaseClient(supabaseURL: supabaseUrl, supabaseKey: anonKey)
-        
-        Task {
-          do {
-              try await client.auth.signIn(email: "loucks12345@gmail.com", password: "password12345")
-              let session = try await client.auth.session
-              print("### Session Info: \(session)")
-          } catch {
-              print("### Sign Up Error: \(error)")
-          }
+        struct DefaultsKeys {
+            static let accessToken = "accessToken"
+            static let refreshToken = "refreshToken"
+            static let userId = "userId"
         }
         
-//        self.appRemote.authorizeAndPlayURI("spotify:track:20I6sIOMTCkB6w7ryavxtO")
-//        self.appRemote.playerAPI?.enqueueTrackUri("spotify:track:20I6sIOMTCkB6w7ryavxtO")
+
+        let defaults = UserDefaults.standard
+        guard let accessToken = defaults.string(forKey: DefaultsKeys.accessToken) else { return }
+        guard let refreshToken = defaults.string(forKey: DefaultsKeys.refreshToken) else { return }
+        guard let userId = defaults.string(forKey: DefaultsKeys.userId) else { return }
+
+        let client = getSupabaseConnection()
+
+        do {
+            Task {
+                try await client!.auth.setSession(accessToken: accessToken, refreshToken: refreshToken)
+                
+                struct InsertModel: Encodable {
+                    let device_token: String?
+                    let id_users: String?
+                }
+
+                let insertData = InsertModel(device_token: getDeviceToken(), id_users: userId)
+                let query = client!.database
+                            .from("party")
+                            .insert(values: insertData,
+                                    returning: .representation)
+                
+                
+                            
+                Task {
+                    do {
+                        let response = try await query.execute().value
+                        print("RESPONSE \(response)")
+                        print("### Returned: \(response)")
+                    } catch {
+                        print("### Insert Error: \(error)")
+                    }
+                }
+            }
+            
+            
+            
+        } catch {
+
+        }
+        
     }
 
     // MARK: - Private Helpers
@@ -158,7 +198,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: Style & Layout
-extension ViewController {
+extension MainController {
     func style() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -175,6 +215,12 @@ extension ViewController {
         connectButton.setTitle("Continue with Spotify", for: [])
         connectButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
         connectButton.addTarget(self, action: #selector(didTapConnect), for: .primaryActionTriggered)
+        
+        createPartyButton.translatesAutoresizingMaskIntoConstraints = false
+        createPartyButton.configuration = .filled()
+        createPartyButton.setTitle("Create Party", for: [])
+        createPartyButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
+        createPartyButton.addTarget(self, action: #selector(createParty), for: .primaryActionTriggered)
         
         playButton.translatesAutoresizingMaskIntoConstraints = false
         playButton.configuration = .filled()
@@ -200,6 +246,7 @@ extension ViewController {
 
     func layout() {
 
+        stackView.addArrangedSubview(createPartyButton)
         stackView.addArrangedSubview(connectLabel)
         stackView.addArrangedSubview(connectButton)
         stackView.addArrangedSubview(playButton)
@@ -237,7 +284,7 @@ extension ViewController {
 }
 
 // MARK: - SPTAppRemoteDelegate
-extension ViewController: SPTAppRemoteDelegate {
+extension MainController: SPTAppRemoteDelegate {
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
         updateViewBasedOnConnected()
         appRemote.playerAPI?.delegate = self
@@ -261,7 +308,7 @@ extension ViewController: SPTAppRemoteDelegate {
 }
 
 // MARK: - SPTAppRemotePlayerAPIDelegate
-extension ViewController: SPTAppRemotePlayerStateDelegate {
+extension MainController: SPTAppRemotePlayerStateDelegate {
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
         debugPrint("Spotify Track name: %@", playerState.track.name)
         update(playerState: playerState)
@@ -269,7 +316,7 @@ extension ViewController: SPTAppRemotePlayerStateDelegate {
 }
 
 // MARK: - SPTSessionManagerDelegate
-extension ViewController: SPTSessionManagerDelegate {
+extension MainController: SPTSessionManagerDelegate {
     func sessionManager(manager: SPTSessionManager, didFailWith error: Error) {
         if error.localizedDescription == "The operation couldn’t be completed. (com.spotify.sdk.login error 1.)" {
             print("AUTHENTICATE with WEBAPI")
@@ -289,7 +336,7 @@ extension ViewController: SPTSessionManagerDelegate {
 }
 
 // MARK: - Networking
-extension ViewController {
+extension MainController {
 
     func fetchAccessToken(completion: @escaping ([String: Any]?, Error?) -> Void) {
         let url = URL(string: "https://accounts.spotify.com/api/token")!
@@ -348,3 +395,4 @@ extension ViewController {
         })
     }
 }
+
