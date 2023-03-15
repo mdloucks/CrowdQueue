@@ -65,10 +65,12 @@ class MainController: UIViewController {
     }()
 
     private var lastPlayerState: SPTAppRemotePlayerState?
+    private var joinCodeLabelDefaultText = "Start a party to get your join code!"
 
     // MARK: - Subviews
     let stackView = UIStackView()
     let connectLabel = UILabel()
+    let joinCodeLabel = UILabel()
     let connectButton = UIButton(type: .system)
     let playButton = UIButton(type: .system)
     let imageView = UIImageView()
@@ -78,6 +80,7 @@ class MainController: UIViewController {
     
 //    create party button
     let createPartyButton = UIButton(type: .system)
+    let endPartyButton = UIButton(type: .system)
 
     // MARK: App Life Cycle
     override func viewDidLoad() {
@@ -133,55 +136,46 @@ class MainController: UIViewController {
         self.appRemote.playerAPI?.enqueueTrackUri("spotify:track:20I6sIOMTCkB6w7ryavxtO")
     }
     
+    /**
+     Create a live party that users can enqueue songs for.
+     */
     @objc func createParty(_ button: UIButton) {
         print("create party!")
         
-        struct DefaultsKeys {
-            static let accessToken = "accessToken"
-            static let refreshToken = "refreshToken"
-            static let userId = "userId"
-        }
-        
-
-        let defaults = UserDefaults.standard
-        guard let accessToken = defaults.string(forKey: DefaultsKeys.accessToken) else { return }
-        guard let refreshToken = defaults.string(forKey: DefaultsKeys.refreshToken) else { return }
-        guard let userId = defaults.string(forKey: DefaultsKeys.userId) else { return }
-
-        let client = getSupabaseConnection()
-
-        do {
-            Task {
-                try await client!.auth.setSession(accessToken: accessToken, refreshToken: refreshToken)
+        Task {
+            var joinCode = await Party.getJoinCode()
                 
-                struct InsertModel: Encodable {
-                    let device_token: String?
-                    let id_users: String?
-                }
-
-                let insertData = InsertModel(device_token: getDeviceToken(), id_users: userId)
-                let query = client!.database
-                            .from("party")
-                            .insert(values: insertData,
-                                    returning: .representation)
-                
-                
-                            
-                Task {
-                    do {
-                        let response = try await query.execute().value
-                        print("RESPONSE \(response)")
-                        print("### Returned: \(response)")
-                    } catch {
-                        print("### Insert Error: \(error)")
-                    }
-                }
+            if joinCode == nil {
+                print("### Party doesn't exist, creating...")
+                joinCode = await Party.create()
+            } else {
+                print("### Party exists: using existing session")
             }
             
+            joinCode = Int(joinCode!)
             
+            print("JOIN CODE: \(joinCode!)")
+            joinCodeLabel.text = "JOIN CODE: \(joinCode!)"
             
-        } catch {
-
+            endPartyButton.isHidden = false
+            createPartyButton.isHidden = true
+        }
+        
+    }
+    
+    /**
+     Delete the party created from createParty from the database
+     */
+    @objc func endParty(_ button: UIButton) {
+        print("end party!")
+        createPartyButton.isHidden = false
+        
+        Task {
+            let didDelete = await Party.delete()
+            if didDelete {
+                endPartyButton.isHidden = true
+                joinCodeLabel.text = self.joinCodeLabelDefaultText
+            }
         }
         
     }
@@ -209,6 +203,11 @@ extension MainController {
         connectLabel.text = "Connect your Spotify account"
         connectLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         connectLabel.textColor = .systemGreen
+        
+        joinCodeLabel.translatesAutoresizingMaskIntoConstraints = false
+        joinCodeLabel.text = self.joinCodeLabelDefaultText
+        joinCodeLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        joinCodeLabel.textColor = .systemCyan
 
         connectButton.translatesAutoresizingMaskIntoConstraints = false
         connectButton.configuration = .filled()
@@ -221,6 +220,14 @@ extension MainController {
         createPartyButton.setTitle("Create Party", for: [])
         createPartyButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
         createPartyButton.addTarget(self, action: #selector(createParty), for: .primaryActionTriggered)
+        
+        endPartyButton.translatesAutoresizingMaskIntoConstraints = false
+        endPartyButton.configuration = .filled()
+        endPartyButton.setTitle("End Party", for: [])
+        endPartyButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
+        endPartyButton.backgroundColor = UIColor.red
+        endPartyButton.isHidden = true
+        endPartyButton.addTarget(self, action: #selector(endParty), for: .primaryActionTriggered)
         
         playButton.translatesAutoresizingMaskIntoConstraints = false
         playButton.configuration = .filled()
@@ -246,7 +253,9 @@ extension MainController {
 
     func layout() {
 
+        stackView.addArrangedSubview(joinCodeLabel)
         stackView.addArrangedSubview(createPartyButton)
+        stackView.addArrangedSubview(endPartyButton)
         stackView.addArrangedSubview(connectLabel)
         stackView.addArrangedSubview(connectButton)
         stackView.addArrangedSubview(playButton)

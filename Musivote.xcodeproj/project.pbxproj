@@ -23,6 +23,7 @@
 		EF640D1629A6D91E007D2CC8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF640D1529A6D91E007D2CC8 /* LoginViewController.swift */; };
 		EF7D576929A9522D001875B1 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7D576829A9522D001875B1 /* MainController.swift */; };
 		EF7D576B29A95B4C001875B1 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7D576A29A95B4C001875B1 /* WelcomeViewController.swift */; };
+		EFAB539229BA71DF00DABD70 /* Party.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAB539129BA71DF00DABD70 /* Party.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,6 +61,7 @@
 		EF640D1529A6D91E007D2CC8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		EF7D576829A9522D001875B1 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		EF7D576A29A95B4C001875B1 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		EFAB539129BA71DF00DABD70 /* Party.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Party.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 		EF4BE7B929A0158300B8E23D = {
 			isa = PBXGroup;
 			children = (
+				EFAB539129BA71DF00DABD70 /* Party.swift */,
 				EF02CABB29AD6E8F008A6FCC /* Musivote.entitlements */,
 				EF02CAB929AD2CD8008A6FCC /* DeviceToken.swift */,
 				EF02CAB529AAAEEB008A6FCC /* NavigationViewController.swift */,
@@ -206,6 +209,7 @@
 			files = (
 				EF02CAB629AAAEEB008A6FCC /* NavigationViewController.swift in Sources */,
 				EF4BE7C629A0158300B8E23D /* AppDelegate.swift in Sources */,
+				EFAB539229BA71DF00DABD70 /* Party.swift in Sources */,
 				EF02CAB029A964D2008A6FCC /* SignupViewController.swift in Sources */,
 				EF02CABA29AD2CD8008A6FCC /* DeviceToken.swift in Sources */,
 				EF4BE7C829A0158300B8E23D /* SceneDelegate.swift in Sources */,

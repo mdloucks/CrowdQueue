@@ -97,10 +97,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         print(aps)
-        
     }
-    
-    
-    
 }
 
