@@ -65,6 +65,7 @@ class MainController: UIViewController {
 
     private var lastPlayerState: SPTAppRemotePlayerState?
     private var partyCodeLabelDefaultText = "Start a party to get your join code!"
+    private var trackQueue: [String] = []
 
     // MARK: - Subviews
     let stackView = UIStackView()
@@ -136,19 +137,24 @@ class MainController: UIViewController {
     
     @objc func handleNotification(_ notification: Notification) {
         print("### HANDLE NOTIFICATION")
-        let track = (notification.userInfo?["track"])
-        
-        enqueueSong(track as! String)
+        let track = notification.userInfo?["track"] as! String
+        self.addTrackToQueue(track)
+
+        enqueueSongs(track)
     }
     
-    func enqueueSong(_ trackUri: String) {
+    func enqueueSongs(_ trackUri: String) {
         if !appRemote.isConnected {
-            appRemote.connect()
+            print("### Can't enqueue song, not connected")
+            return
         }
         
-        self.appRemote.playerAPI?.enqueueTrackUri(trackUri)
+        for track in self.trackQueue {
+            self.appRemote.playerAPI?.enqueueTrackUri(track)
+        }
+
+        self.trackQueue = []
     }
-    
     
     /**
      Create a live party that users can enqueue songs for.
@@ -328,11 +334,23 @@ extension MainController: SPTAppRemoteDelegate {
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
         updateViewBasedOnConnected()
         lastPlayerState = nil
+        reconnectSpotify()
     }
 
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
         updateViewBasedOnConnected()
         lastPlayerState = nil
+        reconnectSpotify()
+    }
+    
+    func reconnectSpotify() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            if !self.appRemote.isConnected {
+                self.appRemote.connectionParameters.accessToken = self.accessToken
+                self.appRemote.connect()
+                self.appRemote.authorizeAndPlayURI("")
+            }
+        }
     }
 }
 
@@ -422,6 +440,10 @@ extension MainController {
                 self?.update(playerState: playerState)
             }
         })
+    }
+    
+    func addTrackToQueue(_ trackUri: String) {
+        self.trackQueue.append(trackUri)
     }
 }
 

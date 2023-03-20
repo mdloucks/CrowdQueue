@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         registerForPushNotifications()
         
+        
         return true
     }
     
@@ -90,15 +91,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         fetchCompletionHandler completionHandler:
         @escaping (UIBackgroundFetchResult) -> Void
     ) {
-        print("### BACKGROUND")
         guard let aps = userInfo["aps"] as? [String: AnyObject] else {
             completionHandler(.failed)
             return
         }
-
+        
+        
         let track = userInfo["track"]!
-        print("### Received track notification")
         NotificationCenter.default.post(name: Notification.Name("NotificationReceived"), object: nil, userInfo: ["track": track])
+        
+        print("### Track received: \(track)")
 
         completionHandler(.newData)
     }
