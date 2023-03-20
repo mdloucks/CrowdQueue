@@ -1,7 +1,7 @@
 import Foundation
 
 let accessTokenKey = "access-token-key"
-let redirectUri = URL(string:"hellospotify1://")!
+let redirectUri = URL(string:"crowdqueue://")!
 let spotifyClientId = "56af5bcb96594d1ebbb1c1f6d6f63351"
 let spotifyClientSecretKey = "ed474ea327c646c68430c8149814e809"
 

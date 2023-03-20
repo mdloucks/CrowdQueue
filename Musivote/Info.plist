@@ -9,7 +9,7 @@
 			<string>club.mdl.CrowdQueue</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>hellospotify1</string>
+				<string>crowdqueue</string>
 			</array>
 		</dict>
 	</array>

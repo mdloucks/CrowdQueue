@@ -8,7 +8,6 @@
 //  ViewController.swift
 //  easyplay
 //
-//  Created by jrasmusson on 2022-03-21.
 //
 
 import UIKit
@@ -65,14 +64,13 @@ class MainController: UIViewController {
     }()
 
     private var lastPlayerState: SPTAppRemotePlayerState?
-    private var joinCodeLabelDefaultText = "Start a party to get your join code!"
+    private var partyCodeLabelDefaultText = "Start a party to get your join code!"
 
     // MARK: - Subviews
     let stackView = UIStackView()
     let connectLabel = UILabel()
-    let joinCodeLabel = UILabel()
+    let partyCodeLabel = UILabel()
     let connectButton = UIButton(type: .system)
-    let playButton = UIButton(type: .system)
     let imageView = UIImageView()
     let trackLabel = UILabel()
     let playPauseButton = UIButton(type: .system)
@@ -85,6 +83,11 @@ class MainController: UIViewController {
     // MARK: App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+//        register for notifications
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("NotificationReceived"), object: nil)
+        
         style()
         layout()
     }
@@ -129,12 +132,23 @@ class MainController: UIViewController {
         sessionManager.initiateSession(with: scopes, options: .clientOnly)
     }
     
-    @objc func playSong(_ button: UIButton) {
-        print("play song!!!!")
+    // MARK: - Party
+    
+    @objc func handleNotification(_ notification: Notification) {
+        print("### HANDLE NOTIFICATION")
+        let track = (notification.userInfo?["track"])
         
-//        self.appRemote.authorizeAndPlayURI("spotify:track:20I6sIOMTCkB6w7ryavxtO")
-        self.appRemote.playerAPI?.enqueueTrackUri("spotify:track:20I6sIOMTCkB6w7ryavxtO")
+        enqueueSong(track as! String)
     }
+    
+    func enqueueSong(_ trackUri: String) {
+        if !appRemote.isConnected {
+            appRemote.connect()
+        }
+        
+        self.appRemote.playerAPI?.enqueueTrackUri(trackUri)
+    }
+    
     
     /**
      Create a live party that users can enqueue songs for.
@@ -143,24 +157,21 @@ class MainController: UIViewController {
         print("create party!")
         
         Task {
-            var joinCode = await Party.getJoinCode()
+            
+            if let partyCode = await Party.getPartyCode() {
+                partyCodeLabel.text = "JOIN CODE: \(partyCode)"
                 
-            if joinCode == nil {
-                print("### Party doesn't exist, creating...")
-                joinCode = await Party.create()
+                endPartyButton.isHidden = false
+                createPartyButton.isHidden = true
             } else {
-                print("### Party exists: using existing session")
+                let partyCode = await Party.create()
+                
+                partyCodeLabel.text = "JOIN CODE: \(partyCode!)"
+                
+                endPartyButton.isHidden = false
+                createPartyButton.isHidden = true
             }
-            
-            joinCode = Int(joinCode!)
-            
-            print("JOIN CODE: \(joinCode!)")
-            joinCodeLabel.text = "JOIN CODE: \(joinCode!)"
-            
-            endPartyButton.isHidden = false
-            createPartyButton.isHidden = true
         }
-        
     }
     
     /**
@@ -174,7 +185,7 @@ class MainController: UIViewController {
             let didDelete = await Party.delete()
             if didDelete {
                 endPartyButton.isHidden = true
-                joinCodeLabel.text = self.joinCodeLabelDefaultText
+                partyCodeLabel.text = self.partyCodeLabelDefaultText
             }
         }
         
@@ -204,10 +215,10 @@ extension MainController {
         connectLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         connectLabel.textColor = .systemGreen
         
-        joinCodeLabel.translatesAutoresizingMaskIntoConstraints = false
-        joinCodeLabel.text = self.joinCodeLabelDefaultText
-        joinCodeLabel.font = UIFont.preferredFont(forTextStyle: .title3)
-        joinCodeLabel.textColor = .systemCyan
+        partyCodeLabel.translatesAutoresizingMaskIntoConstraints = false
+        partyCodeLabel.text = self.partyCodeLabelDefaultText
+        partyCodeLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        partyCodeLabel.textColor = .systemCyan
 
         connectButton.translatesAutoresizingMaskIntoConstraints = false
         connectButton.configuration = .filled()
@@ -228,12 +239,6 @@ extension MainController {
         endPartyButton.backgroundColor = UIColor.red
         endPartyButton.isHidden = true
         endPartyButton.addTarget(self, action: #selector(endParty), for: .primaryActionTriggered)
-        
-        playButton.translatesAutoresizingMaskIntoConstraints = false
-        playButton.configuration = .filled()
-        playButton.setTitle("Play Button!!", for: [])
-        playButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
-        playButton.addTarget(self, action: #selector(playSong), for: .primaryActionTriggered)
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -253,12 +258,11 @@ extension MainController {
 
     func layout() {
 
-        stackView.addArrangedSubview(joinCodeLabel)
+        stackView.addArrangedSubview(partyCodeLabel)
         stackView.addArrangedSubview(createPartyButton)
         stackView.addArrangedSubview(endPartyButton)
         stackView.addArrangedSubview(connectLabel)
         stackView.addArrangedSubview(connectButton)
-        stackView.addArrangedSubview(playButton)
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(trackLabel)
         stackView.addArrangedSubview(playPauseButton)
@@ -270,6 +274,21 @@ extension MainController {
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
+        Task {
+    //        update hidden status of party stop/start based on if party exists
+            if(await Party.partyExists()) {
+                print("Party exists")
+                let partyCode = await Party.getPartyCode()
+                partyCodeLabel.text = "JOIN CODE: \(partyCode!)"
+                createPartyButton.isHidden = true
+                endPartyButton.isHidden = false
+            } else {
+//                delete code from local storage 
+                print("Party doesn't exist")
+                createPartyButton.isHidden = false
+                endPartyButton.isHidden = true
+            }
+        }
     }
 
     func updateViewBasedOnConnected() {
@@ -305,6 +324,7 @@ extension MainController: SPTAppRemoteDelegate {
         fetchPlayerState()
     }
 
+    // disconencted with error.
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
         updateViewBasedOnConnected()
         lastPlayerState = nil

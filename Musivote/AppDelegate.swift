@@ -57,7 +57,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             DispatchQueue.main.async {
                 UIApplication.shared.registerForRemoteNotifications()
             }
-            
         }
     }
     
@@ -91,12 +90,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         fetchCompletionHandler completionHandler:
         @escaping (UIBackgroundFetchResult) -> Void
     ) {
+        print("### BACKGROUND")
         guard let aps = userInfo["aps"] as? [String: AnyObject] else {
             completionHandler(.failed)
             return
         }
-        
-        print(aps)
+
+        let track = userInfo["track"]!
+        print("### Received track notification")
+        NotificationCenter.default.post(name: Notification.Name("NotificationReceived"), object: nil, userInfo: ["track": track])
+
+        completionHandler(.newData)
     }
 }
 

@@ -13,23 +13,24 @@ import PostgREST
 
 class Party {
     
-//    /**
-//     Is there an active party associated with this user?
-//     */
-//    static func partyExists() -> Bool {
-//        struct DefaultsKeys {
-//            static let joinCode = "joinCode"
-//        }
-//
-//        let defaults = UserDefaults.standard
-//
-//        guard let joinCode = defaults.string(forKey: DefaultsKeys.joinCode) else { return false }
-//
-//        return true
-//    }
+    /**
+     Is there an active party associated with this user?
+     */
+    static func partyExists() async -> Bool {
+        struct DefaultsKeys {
+            static let partyCode = "partyCode"
+        }
+        let partyCode = await getPartyCode()
+        
+        if partyCode == nil || partyCode ?? 0 <= 0 {
+            return false
+        }
+        
+        return true
+    }
     
     /**
-     Create a party and return the join_code
+     Create a party and return the party_code
      */
     static func create() async -> Int? {
         
@@ -42,10 +43,10 @@ class Party {
 //            insert
         struct InsertModel: Encodable, Decodable {
             let device_token: String?
-            let join_code: Int?
+            let party_code: Int?
         }
         
-        let insertData = InsertModel(device_token: deviceToken, join_code: nil)
+        let insertData = InsertModel(device_token: deviceToken, party_code: nil)
         let query = client!.database
             .from("party")
             .insert(values: insertData,
@@ -62,8 +63,8 @@ class Party {
                 return nil
             }
             
-            let joinCode = response[0].join_code
-            return joinCode
+            let partyCode = response[0].party_code
+            return partyCode
             
             
         } catch {
@@ -73,19 +74,19 @@ class Party {
         return nil
     }
     
-    static func getJoinCode() async -> Int? {
+    static func getPartyCode() async -> Int? {
         
-        print("### Retrieving join code")
+        print("### Retrieving party code")
         
         let client = getSupabaseConnection()
         let deviceToken: String = getDeviceToken()
         
         struct InsertModel: Encodable, Decodable {
             let device_token: String
-            let join_code: Int?
+            let party_code: Int?
         }
         
-        let insertData: InsertModel = InsertModel(device_token: deviceToken, join_code: nil)
+        let insertData: InsertModel = InsertModel(device_token: deviceToken, party_code: nil)
         
         let query = client!.database
                     .from("party")
@@ -101,8 +102,8 @@ class Party {
                 return nil
             }
             
-            let joinCode = response[0].join_code
-            return joinCode
+            let partyCode = response[0].party_code
+            return partyCode
             
         } catch {
             print("### Insert Error: \(error)")
@@ -121,10 +122,10 @@ class Party {
         
         struct InsertModel: Encodable, Decodable {
             let device_token: String
-            let join_code: Int?
+            let party_code: Int?
         }
         
-        let insertData: InsertModel = InsertModel(device_token: deviceToken, join_code: nil)
+        let insertData: InsertModel = InsertModel(device_token: deviceToken, party_code: nil)
         
         let query = client!.database
                     .from("party")
