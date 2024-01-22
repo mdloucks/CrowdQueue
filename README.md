@@ -11,6 +11,10 @@ This repository is the 'Mobile App' portion of the diagram. The other portions a
 
 ![Sequence diagram](https://github.com/LawnmowerDave/CrowdQueue/assets/19471665/3d932618-1b4c-4cfb-9e94-5017f95eac2a)
 
+## Screenshots 
+
+![Screenshot 2024-01-22 at 12 58 47 PM](https://github.com/LawnmowerDave/CrowdQueue/assets/19471665/f21fbb17-714e-46f5-bfa4-f47528d02355)
+
 ## Acknowledgements
 
 Thank you to the open-source maintainers of [Supabase Swift](https://github.com/supabase-community/supabase-swift) for 
